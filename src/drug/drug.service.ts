@@ -25,7 +25,7 @@ export class DrugService {
     endDate?: string, // "2025-05-04 00:00:00"
   ) {
     const skip = (page - 1) * limit;
-    const where = {};
+    const where: any = {};
 
     if (name) where.name = name;
     if (department) where.department = department;
@@ -69,5 +69,33 @@ export class DrugService {
   // 删除药物
   async deleteDrug(id: number) {
     await this.drugRepository.delete(id);
+  }
+
+  // 获取去重后的药物名称和所有种类
+  async getDistinctDrugNames() {
+    const drugs = await this.drugRepository.find();
+    const distinctNames = [...new Set(drugs.map((drug) => drug.name))];
+    return { distinctNames };
+  }
+
+  // 获取进货花费总额
+  async getTotalPurchaseCost() {
+    const drugs = await this.drugRepository.find();
+    return drugs.reduce(
+      (total, drug) => total + drug.purchasePrice * drug.purchaseQuantity,
+      0,
+    );
+  }
+
+  // 获取进账总额
+  async getTotalProfit() {
+    const drugs = await this.drugRepository.find();
+    return drugs.reduce(
+      (total, drug) =>
+        total +
+        (drug.price - drug.purchasePrice) *
+          (drug.purchaseQuantity - drug.stock),
+      0,
+    );
   }
 }

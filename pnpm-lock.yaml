@@ -47,6 +47,9 @@ dependencies:
   passport-jwt:
     specifier: ^4.0.1
     version: 4.0.1
+  react-countup:
+    specifier: ^6.5.3
+    version: 6.5.3(react@19.1.0)
   reflect-metadata:
     specifier: ^0.2.2
     version: 0.2.2
@@ -3034,6 +3037,10 @@ packages:
       typescript: 5.7.3
     dev: true
 
+  /countup.js@2.8.2:
+    resolution: {integrity: sha512-UtRoPH6udaru/MOhhZhI/GZHJKAyAxuKItD2Tr7AbrqrOPBX/uejWBBJt8q86169AMqKkE9h9/24kFWbUk/Bag==, tarball: https://registry.npmmirror.com/countup.js/-/countup.js-2.8.2.tgz}
+    dev: false
+
   /create-jest@29.7.0(@types/node@22.14.0)(ts-node@10.9.2):
     resolution: {integrity: sha512-Adz2bdH0Vq3F53KEMJOoftQFutWCukm6J24wbPWRO4k1kMY7gS7ds/uoJkNuV8wDCtWWnuwGcJwpWcih+zEW1Q==, tarball: https://registry.npmmirror.com/create-jest/-/create-jest-29.7.0.tgz}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -5414,9 +5421,23 @@ packages:
       iconv-lite: 0.6.3
       unpipe: 1.0.0
 
+  /react-countup@6.5.3(react@19.1.0):
+    resolution: {integrity: sha512-udnqVQitxC7QWADSPDOxVWULkLvKUWrDapn5i53HE4DPRVgs+Y5rr4bo25qEl8jSh+0l2cToJgGMx+clxPM3+w==, tarball: https://registry.npmmirror.com/react-countup/-/react-countup-6.5.3.tgz}
+    peerDependencies:
+      react: '>= 16.3.0'
+    dependencies:
+      countup.js: 2.8.2
+      react: 19.1.0
+    dev: false
+
   /react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==, tarball: https://registry.npmmirror.com/react-is/-/react-is-18.3.1.tgz}
     dev: true
+
+  /react@19.1.0:
+    resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==, tarball: https://registry.npmmirror.com/react/-/react-19.1.0.tgz}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /readable-stream@2.3.8:
     resolution: {integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==, tarball: https://registry.npmmirror.com/readable-stream/-/readable-stream-2.3.8.tgz}

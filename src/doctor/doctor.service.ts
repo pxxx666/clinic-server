@@ -28,7 +28,7 @@ export class DoctorService {
     name?: string,
   ) {
     const skip = (page - 1) * limit;
-    const where = {};
+    const where: any = {};
     if (department) {
       where.department = department;
     }

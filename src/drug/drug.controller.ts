@@ -31,6 +31,8 @@ export class DrugController {
     @Query('start') start?: string,
     @Query('end') end?: string,
   ): Promise<{ data: Drug[]; total: number }> {
+    console.log('1212');
+
     return this.drugService.getAllDrugs(
       page,
       limit,
@@ -60,5 +62,23 @@ export class DrugController {
   @Delete(':id')
   async deleteDrug(@Param('id') id: number): Promise<void> {
     return this.drugService.deleteDrug(id);
+  }
+
+  // 获取去重后的药物名称和所有种类
+  @Get('/distinct/name')
+  async getDistinctDrugNames() {
+    return this.drugService.getDistinctDrugNames();
+  }
+
+  // 获取进货花费总额
+  @Get('/total/purchase-cost')
+  async getTotalPurchaseCost() {
+    return this.drugService.getTotalPurchaseCost();
+  }
+
+  // 获取进账总额
+  @Get('/total/profit')
+  async getTotalProfit() {
+    return this.drugService.getTotalProfit();
   }
 }
