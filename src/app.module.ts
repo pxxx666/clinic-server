@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
+import { DrugModule } from './drug/drug.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { DepartmentModule } from './department/department.module';
 import { ConfigModule } from '@nestjs/config';
+import { DoctorModule } from './doctor/doctor.module';
 
 @Module({
   imports: [
+    DrugModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -19,6 +23,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     AuthModule,
     UserModule,
+    DepartmentModule,
+    DoctorModule,
   ],
 })
 export class AppModule {}

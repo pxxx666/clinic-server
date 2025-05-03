@@ -33,12 +33,8 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(
-      registerDto.email,
-      registerDto.password,
-      registerDto.role,
-    );
+  register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
   }
 
   @Post('send-verification-code')

@@ -15,16 +15,39 @@ export class UserService {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async createUser(email: string, password: string, role: Role): Promise<User> {
+  async findByPhone(phone: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { phone } });
+  }
+
+  async findById(id: number): Promise<User | null> {
+    return this.userRepository.findOne({ where: { id } });
+  }
+
+  async findByIdCard(idCard: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { idCard } });
+  }
+
+  async createUser(
+    email: string,
+    password: string,
+    role: Role,
+    phone: string,
+    idCard: string,
+    realName: string,
+  ): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = this.userRepository.create({
       email,
       password: hashedPassword,
       role,
+      phone,
+      idCard,
+      realName,
     });
+
     return this.userRepository.save(user);
   }
-
   async updateUserProfile(
     userId: number,
     updates: { phone?: string; realName?: string; idCard?: string },
