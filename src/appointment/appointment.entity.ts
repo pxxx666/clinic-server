@@ -82,4 +82,14 @@ export class Appointment {
    */
   @Column({ nullable: true })
   doctorAdvice: string;
+
+  /**
+   * 预约状态，创建时默认待叫号，更新后变已结束。
+   */
+  @Column({
+    type: 'enum',
+    enum: ['待叫号', '就诊中', '已结束'],
+    default: '待叫号',
+  })
+  status: '待叫号' | '就诊中' | '已结束';
 }

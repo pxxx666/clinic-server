@@ -59,6 +59,11 @@ export class AppointmentController {
     return this.appointmentService.update(+id, updateData);
   }
 
+  @Put(':id/call')
+  callAppointment(@Param('id') id: string) {
+    return this.appointmentService.callAppointment(+id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.appointmentService.remove(+id);

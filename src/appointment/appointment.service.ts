@@ -59,12 +59,20 @@ export class AppointmentService {
     id: number,
     updateData: Pick<Appointment, 'diagnosticResult' | 'drug' | 'doctorAdvice'>,
   ) {
-    await this.appointmentRepository.update(id, updateData);
+    await this.appointmentRepository.update(id, {
+      ...updateData,
+      status: '已结束',
+    });
     return this.appointmentRepository.findOne({ where: { id } });
   }
 
   async remove(id: number) {
     await this.appointmentRepository.delete(id);
     return { message: '预约信息删除成功' };
+  }
+
+  async callAppointment(id: number) {
+    await this.appointmentRepository.update(id, { status: '就诊中' });
+    return this.appointmentRepository.findOne({ where: { id } });
   }
 }
