@@ -45,6 +45,7 @@ export class DoctorService {
       where.name = Like(`%${name}%`);
     }
     const [departments, total] = await this.doctorRepository.findAndCount({
+      where,
       skip,
       take: limit,
     });
@@ -69,7 +70,8 @@ export class DoctorService {
     return { message: '医生信息删除成功' };
   }
 
-  updateAuditStatus(id: string) {
+  async updateAuditStatus(id: string) {
+    await this.doctorRepository.update(id, { auditStatus: '1' });
     return { message: `医生 ${id} 的审核状态已更新` };
   }
 }
