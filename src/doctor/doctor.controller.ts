@@ -46,7 +46,6 @@ export class DoctorController {
     console.log('id: ', id);
     return this.doctorService.findOne(+id);
   }
-
   @Put(':id')
   update(@Param('id') id: string, @Body() doctor: Doctor) {
     return this.doctorService.update(+id, doctor);
@@ -55,6 +54,11 @@ export class DoctorController {
   @Put(':id/audit')
   updateAuditStatus(@Param('id') id: string) {
     return this.doctorService.updateAuditStatus(id);
+  }
+
+  @Get(':id/stats')
+  async getDoctorStats(@Param('id') id: string) {
+    return this.doctorService.getDoctorStats(id);
   }
 
   @Delete(':id')

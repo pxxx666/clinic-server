@@ -34,6 +34,7 @@ export class AppointmentController {
     @Query('doctorId') doctorId?: string,
     @Query('department') department?: string,
     @Query('appointmentTime') appointmentTime?: string,
+    @Query('status') status?: string,
   ) {
     return this.appointmentService.findAll(
       page,
@@ -42,6 +43,7 @@ export class AppointmentController {
       doctorId,
       department,
       appointmentTime,
+      status,
     );
   }
 

@@ -1,5 +1,7 @@
 import * as nodemailer from 'nodemailer';
 import { Injectable } from '@nestjs/common';
+// import { Appointment } from '/src/appointment/appointment.entity';
+import { Appointment } from '../../appointment/appointment.entity';
 
 @Injectable()
 export class EmailUtil {
@@ -18,13 +20,32 @@ export class EmailUtil {
   async sendVerificationCode(to: string, code: string): Promise<boolean> {
     try {
       const mailOptions = {
-        from: `"智慧微诊所系统" <${process.env.EMAIL_USER}>`,
+        from: `"MedicalNexus" <${process.env.EMAIL_USER}>`,
         to,
-        subject: '智慧微诊所 - 邮箱验证码',
+        subject: 'MedicalNexus - 邮箱验证码',
         text: `您的验证码是：${code}，5分钟内有效。`,
         html: this.getEmailTemplate(code),
       };
 
+      await this.transporter.sendMail(mailOptions);
+      return true;
+    } catch (error) {
+      console.error('发送邮件失败:', error);
+      throw new Error('邮件发送失败，请稍后重试');
+    }
+  }
+
+  async sendCallAppointment(
+    to: string,
+    appointment: Appointment,
+  ): Promise<boolean> {
+    try {
+      const mailOptions = {
+        from: `"MedicalNexus" <${process.env.EMAIL_USER}>`,
+        to,
+        subject: 'MedicalNexus - 叫号通知',
+        text: `${appointment.patientName}，您好，您于 ${appointment.appointmentTime} 在 ${appointment.department} 科室预约了医生 ${appointment.doctorName} 的咨询，叫号成功，请您准备好。`,
+      };
       await this.transporter.sendMail(mailOptions);
       return true;
     } catch (error) {

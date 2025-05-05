@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Appointment } from './appointment.entity';
+import { EmailUtil } from '../common/utils/email.util';
 
 @Injectable()
 export class AppointmentService {
   constructor(
     @InjectRepository(Appointment)
     private appointmentRepository: Repository<Appointment>,
+    private emailUtil: EmailUtil,
   ) {}
 
   async create(
@@ -26,6 +28,7 @@ export class AppointmentService {
     doctorId?: string,
     department?: string,
     appointmentTime?: string,
+    status?: string,
   ) {
     const skip = (page - 1) * limit;
     const where: any = {};
@@ -40,6 +43,9 @@ export class AppointmentService {
     }
     if (appointmentTime) {
       where.appointmentTime = appointmentTime;
+    }
+    if (status) {
+      where.status = status;
     }
     const [appointments, total] = await this.appointmentRepository.findAndCount(
       {
@@ -73,6 +79,8 @@ export class AppointmentService {
 
   async callAppointment(id: number) {
     await this.appointmentRepository.update(id, { status: '就诊中' });
-    return this.appointmentRepository.findOne({ where: { id } });
+    const appointment = await this.findOne(id);
+    await this.emailUtil.sendCallAppointment('1209304680@qq.com', appointment!);
+    return { message: '预约信息发送成功' };
   }
 }
