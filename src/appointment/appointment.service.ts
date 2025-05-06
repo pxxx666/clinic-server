@@ -80,7 +80,10 @@ export class AppointmentService {
   async callAppointment(id: number) {
     await this.appointmentRepository.update(id, { status: '就诊中' });
     const appointment = await this.findOne(id);
-    await this.emailUtil.sendCallAppointment('1209304680@qq.com', appointment!);
+    await this.emailUtil.sendCallAppointment(
+      appointment?.patientEmail || '',
+      appointment!,
+    );
     return { message: '预约信息发送成功' };
   }
 }
