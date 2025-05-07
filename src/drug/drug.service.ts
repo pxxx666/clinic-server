@@ -77,6 +77,17 @@ export class DrugService {
     const distinctNames = [...new Set(drugs.map((drug) => drug.name))];
     return { distinctNames };
   }
+  // 根据药物名称获取所有对应 ID
+  async getDrugIdsByName(name: string) {
+    console.log('查询药物名称:', name);
+    const result = await this.drugRepository
+      .createQueryBuilder('drug')
+      .select('drug.id')
+      .where('drug.name = :name', { name })
+      .getMany();
+    console.log('查询结果:', result);
+    return result;
+  }
 
   // 获取进货花费总额
   async getTotalPurchaseCost() {
@@ -96,6 +107,32 @@ export class DrugService {
         (drug.price - drug.purchasePrice) *
           (drug.purchaseQuantity - drug.stock),
       0,
+    );
+  }
+
+  // 消耗药物数量
+  async consumeDrugStock(
+    updates: { id: number; count: number; name: string; useMethod: string }[],
+  ): Promise<any[]> {
+    return Promise.all(
+      updates.map(async ({ id, count }) => {
+        const drug = await this.drugRepository.findOne({ where: { id } });
+
+        if (!drug) {
+          return { success: false, message: `药物 ID ${id} 不存在` };
+        }
+
+        if (drug.stock < count) {
+          return {
+            success: false,
+            message: `药物 ID ${id} 的当前库存量为 ${drug.stock}，请求消耗数量 ${count} 不足。`,
+          };
+        }
+
+        drug.stock -= count;
+        const updatedDrug = await this.drugRepository.save(drug);
+        return { success: true, drug: updatedDrug };
+      }),
     );
   }
 }

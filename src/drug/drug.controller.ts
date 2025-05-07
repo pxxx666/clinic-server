@@ -70,6 +70,12 @@ export class DrugController {
     return this.drugService.getDistinctDrugNames();
   }
 
+  // 根据药物名称获取所有对应 ID
+  @Get('/ids/byName')
+  async getDrugIdsByName(@Query('name') name: string) {
+    return this.drugService.getDrugIdsByName(name);
+  }
+
   // 获取进货花费总额
   @Get('/total/purchase-cost')
   async getTotalPurchaseCost() {

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Appointment } from './appointment.entity';
 import { EmailUtil } from '../common/utils/email.util';
+import { DrugService } from '../drug/drug.service';
 
 @Injectable()
 export class AppointmentService {
@@ -10,6 +11,7 @@ export class AppointmentService {
     @InjectRepository(Appointment)
     private appointmentRepository: Repository<Appointment>,
     private emailUtil: EmailUtil,
+    private drugService: DrugService,
   ) {}
 
   async create(
@@ -65,6 +67,9 @@ export class AppointmentService {
     id: number,
     updateData: Pick<Appointment, 'diagnosticResult' | 'drug' | 'doctorAdvice'>,
   ) {
+    if (updateData.drug) {
+      await this.drugService.consumeDrugStock(updateData.drug as any);
+    }
     await this.appointmentRepository.update(id, {
       ...updateData,
       status: '已结束',
