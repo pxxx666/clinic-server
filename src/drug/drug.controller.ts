@@ -17,8 +17,13 @@ export class DrugController {
 
   // 创建药物
   @Post()
-  async createDrug(@Body() drug: Drug): Promise<Drug> {
-    return this.drugService.createDrug(drug);
+  async createDrug(@Body() drug: Drug): Promise<Drug | null> {
+    const result = await this.drugService.createDrug(drug);
+    if (!result) {
+      // 处理返回 null 的情况，这里可以抛异常或者返回特定信息
+      throw new Error('药物已存在，创建失败');
+    }
+    return result;
   }
 
   // 获取所有药物
@@ -86,5 +91,11 @@ export class DrugController {
   @Get('/total/profit')
   async getTotalProfit() {
     return this.drugService.getTotalProfit();
+  }
+
+  // 根据名称获取药物详情
+  @Get('/detail/byName')
+  async getDrugDetailByName(@Query('name') name: string): Promise<Drug | null> {
+    return this.drugService.getDrugDetailByName(name);
   }
 }

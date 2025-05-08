@@ -11,6 +11,12 @@ export class DrugService {
 
   // 创建药物
   async createDrug(drug: Drug) {
+    const existingDrug = await this.drugRepository.findOne({
+      where: { name: drug.name },
+    });
+    if (existingDrug) {
+      return null;
+    }
     return this.drugRepository.save(drug);
   }
 
@@ -112,20 +118,20 @@ export class DrugService {
 
   // 消耗药物数量
   async consumeDrugStock(
-    updates: { id: number; count: number; name: string; useMethod: string }[],
+    updates: { count: number; name: string; useMethod: string }[],
   ): Promise<any[]> {
     return Promise.all(
-      updates.map(async ({ id, count }) => {
-        const drug = await this.drugRepository.findOne({ where: { id } });
+      updates.map(async ({ name, count }) => {
+        const drug = await this.drugRepository.findOne({ where: { name } });
 
         if (!drug) {
-          return { success: false, message: `药物 ID ${id} 不存在` };
+          return { success: false, message: `药物 ${name} 不存在` };
         }
 
         if (drug.stock < count) {
           return {
             success: false,
-            message: `药物 ID ${id} 的当前库存量为 ${drug.stock}，请求消耗数量 ${count} 不足。`,
+            message: `药物  ${name} 的当前库存量为 ${drug.stock}，请求消耗数量 ${count} 不足。`,
           };
         }
 
@@ -134,5 +140,9 @@ export class DrugService {
         return { success: true, drug: updatedDrug };
       }),
     );
+  }
+  // 根据名称获取药物详情
+  async getDrugDetailByName(name: string) {
+    return this.drugRepository.findOne({ where: { name } });
   }
 }

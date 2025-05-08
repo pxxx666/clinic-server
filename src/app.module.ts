@@ -7,7 +7,7 @@ import { DepartmentModule } from './department/department.module';
 import { ConfigModule } from '@nestjs/config';
 import { DoctorModule } from './doctor/doctor.module';
 import { AppointmentModule } from './appointment/appointment.module';
-
+import { EvaluationModule } from './evaluation/evaluation.module';
 @Module({
   imports: [
     DrugModule,
@@ -27,6 +27,7 @@ import { AppointmentModule } from './appointment/appointment.module';
     DepartmentModule,
     DoctorModule,
     AppointmentModule,
+    EvaluationModule,
   ],
 })
 export class AppModule {}

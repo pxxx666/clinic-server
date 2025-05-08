@@ -75,7 +75,7 @@ export class Appointment {
    * 医生开具的药物信息，以 JSON 格式存储，可为空。
    */
   @Column('simple-json', { nullable: true })
-  drug: { id: string; name: string; count: number; useMethod: string }[];
+  drug: { name: string; count: number; useMethod: string }[];
 
   /**
    * 医生给出的建议，可为空。

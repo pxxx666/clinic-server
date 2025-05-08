@@ -50,7 +50,8 @@ export class EmailUtil {
       return true;
     } catch (error) {
       console.error('发送邮件失败:', error);
-      throw new Error('邮件发送失败，请稍后重试');
+      // throw new Error('邮件发送失败，请稍后重试'); // 这里不抛出错误，因为叫号通知不是必须的
+      return true;
     }
   }
 
